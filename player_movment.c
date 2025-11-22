@@ -1,4 +1,4 @@
-#include "rata.h"
+#include "gamelib.h"
 
 void move_player(SDL_Event event)
 {
@@ -62,7 +62,7 @@ int can_player_move(int direction)
 
         next_xpos = player.value.x;
         next_ypos = player.value.y - BLOCK_SIZE;
-
+        printf("player: xpos:%d\typos%d\n", player.value.x, player.value.y);
         if (find_barrier(next_xpos, next_ypos))
         {
             Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
@@ -79,7 +79,6 @@ int can_player_move(int direction)
         if (find_box(next_xpos, next_ypos, &next_box))
         {
 
-            // printf("box was found!\n");
             box_xpos = next_xpos;
             box_ypos = next_ypos - BLOCK_SIZE;
 

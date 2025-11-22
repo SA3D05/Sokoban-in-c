@@ -1,4 +1,4 @@
-#include "rata.h"
+#include "gamelib.h"
 
 int init_texture()
 {

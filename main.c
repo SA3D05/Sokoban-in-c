@@ -1,12 +1,12 @@
-#include "rata.h"
+#include "gamelib.h"
 
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
-    Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
+    // Mix_Init(MIX_INIT_OGG | MIX_INIT_MP3);
 
     WINDOW = SDL_CreateWindow(
         "Sokoban",
@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     if (!init_game())
         return 1;
 
-    if (!init_sounds())
-        return 1;
+    // if (!init_sounds())
+    //     return 1;
 
     SDL_Event event;
 
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
             if (event.type == SDL_QUIT)
                 RUNNING = 0;
-            else if (event.type == SDL_KEYDOWN)
+            if (event.type == SDL_KEYDOWN)
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_ESCAPE:
@@ -41,9 +41,6 @@ int main(int argc, char *argv[])
                     break;
                 case SDLK_r:
                     init_game();
-                    break;
-                case SDLK_0:
-
                     break;
                 case SDLK_n:
                     CURRENT_LEVEL++;
@@ -53,7 +50,6 @@ int main(int argc, char *argv[])
                         init_game();
                     else
                         CURRENT_LEVEL--;
-
                     break;
                 case SDLK_l:
                     if (CURRENT_LEVEL != 1)

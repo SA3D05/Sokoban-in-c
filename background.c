@@ -1,5 +1,4 @@
-
-#include "rata.h"
+#include "gamelib.h"
 
 int init_background()
 {
@@ -38,4 +37,5 @@ int init_background()
             new_bg->next = NULL;
         }
     }
+    return 1;
 }

@@ -1,4 +1,5 @@
-// #include "rata.h"
+//#include "gamelib.h"
+
 // #define LOGO_PATH "logo.png"
 // #define SOUND_PATH "intro.wav"
 

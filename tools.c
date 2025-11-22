@@ -1,4 +1,4 @@
-#include "rata.h"
+#include "gamelib.h"
 
 void render_map()
 {
@@ -103,7 +103,6 @@ int find_barrier(int x_pos, int y_pos)
     while (temp)
     {
         if (temp->value.x == x_pos && temp->value.y == y_pos)
-            // barrier found on pos x,y
             return 1;
         temp = temp->next;
     }
@@ -117,9 +116,16 @@ int find_box(int x_pos, int y_pos, Box **next_box)
     Box *temp = BOXS_HEAD;
     while (temp)
     {
+        printf("searching for a box ...\n");
+
+        printf("player: next xpos:%d\tnext ypos%d\n", x_pos, y_pos);
+        printf("box: boxx=%d\tboxy%d\n", temp->value.x, temp->value.y);
+
         // that {temp != *next_box} ignore first box node if we need to check the second one
-        if (temp->value.x == x_pos && temp->value.x == y_pos && temp != *next_box)
+        if ((temp->value.x == x_pos) && (temp->value.y == y_pos))
         {
+            printf("yes box found\n");
+
             *next_box = temp;
             return 1;
         }
@@ -145,7 +151,8 @@ int move_box(int direction, Box *my_box)
     {
         my_box->value.x += BLOCK_SIZE;
     }
-    Mix_PlayChannel(-1, MOVE_BOX_SOUND, 0);
+    // Mix_PlayChannel(-1, MOVE_BOX_SOUND, 0);
+    return 1;
 }
 
 int init_game()
@@ -200,4 +207,5 @@ int init_game()
         return 0;
     if (!init_background())
         return 0;
+    return 1;
 }

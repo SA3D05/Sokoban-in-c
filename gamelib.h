@@ -1,6 +1,6 @@
 
-#ifndef RATA_H
-#define RATA_H
+#ifndef GAMELIB_H
+#define GAMELIB_H
 
 #define SDL_MAIN_HANDLED
 #define TITLE "Sokoban"
@@ -9,11 +9,12 @@
 #define DOWN 3
 #define LEFT 4
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include </home/satifi/sdl/local/include/SDL2/SDL.h>
+#include </home/satifi/sdl/local/include/SDL2/SDL_image.h>
+#include </home/satifi/sdl/local/include/SDL2/SDL_mixer.h>
 #include <time.h>
-#include <SDL2/SDL_mixer.h>
 
 // structs
 typedef struct Barrier Barrier;

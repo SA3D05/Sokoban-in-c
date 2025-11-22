@@ -1,4 +1,4 @@
-#include "rata.h"
+#include "gamelib.h"
 
 Barrier *BARRIERS_HEAD = NULL;
 Box *BOXS_HEAD = NULL;

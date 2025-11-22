@@ -1,4 +1,4 @@
-#include "rata.h"
+#include "gamelib.h"
 
 int read_map()
 {
@@ -150,7 +150,7 @@ void insert_box(int x, int y)
     new_box->texture = BOX_TEXTURE;
     new_box->is_on_place = 0;
 
-    printf(" new_box->value.x %d\tnew_box->value.y%d\n", new_box->value.x, new_box->value.y);
+    // printf(" new_box->value.x %d\tnew_box->value.y%d\n", new_box->value.x, new_box->value.y);
 
     if (BOXS_HEAD == NULL)
     {
