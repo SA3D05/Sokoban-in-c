@@ -62,7 +62,7 @@ int can_player_move(int direction)
 
         next_xpos = player.value.x;
         next_ypos = player.value.y - BLOCK_SIZE;
-        printf("player: xpos:%d\typos%d\n", player.value.x, player.value.y);
+        // printf("player: xpos:%d\typos%d\n", player.value.x, player.value.y);
         if (find_barrier(next_xpos, next_ypos))
         {
             Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
@@ -110,7 +110,7 @@ int can_player_move(int direction)
 
                 move_box(UP, next_box);
                 check_solved(next_box);
-
+                Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
                 // printf("solved: %d\n", SOLVED);
                 return 1;
             }
@@ -177,6 +177,7 @@ int can_player_move(int direction)
 
                 move_box(DOWN, next_box);
                 check_solved(next_box);
+                Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
                 // printf("solved: %d\n", SOLVED);
                 return 1;
             }
@@ -243,6 +244,7 @@ int can_player_move(int direction)
 
                 move_box(LEFT, next_box);
                 check_solved(next_box);
+                Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
                 // printf("solved: %d\n", SOLVED);
 
                 return 1;
@@ -310,6 +312,7 @@ int can_player_move(int direction)
                 // printf("nothing front of box you can move!\n\n");
                 move_box(RIGHT, next_box);
                 check_solved(next_box);
+                Mix_PlayChannel(-1, NON_MOVE_SOUND, 0);
                 // printf("solved: %d\n", SOLVED);
                 return 1;
             }

@@ -1,6 +1,6 @@
 #include "gamelib.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
     if (!init_game())
         return 1;
 
-    // if (!init_sounds())
-    //     return 1;
+    if (!init_sounds())
+        return 1;
 
     SDL_Event event;
 

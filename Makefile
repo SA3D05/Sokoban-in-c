@@ -1,30 +1,66 @@
-# Compiler
-CC = clang
+# Container Settings
+IMAGE_NAME = sdl2-game-env
+CONTAINER_APP = /app
 
-# Headers and libraries
-HEADERS = -I/home/satifi/sdl/local/include/SDL2
-LIBS    = -L/home/satifi/sdl/local/lib -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
+# Native Compilation Flags (Used inside the Docker container)
+CC      = clang
+CFLAGS  = -Wall -Wextra $(shell pkg-config --cflags sdl2 SDL2_ttf SDL2_image SDL2_mixer 2>/dev/null)
+LDFLAGS = $(shell pkg-config --libs sdl2 SDL2_ttf SDL2_image SDL2_mixer 2>/dev/null)
 
-# Sources
-SRC = background.c globals.c init_map.c player_movment.c tools.c textures.c main.c
-
-# Object files
-OBJ = $(SRC:.c=.o)
-
-# Target program
+# Project Files
+SRC    = background.c globals.c init_map.c player_movment.c tools.c textures.c sounds.c main.c
+OBJ    = $(SRC:.c=.o)
 TARGET = app
 
-# Default rule
-all: $(TARGET)
-	./app
-# Link objects
-$(TARGET): $(OBJ) gamelib.h
-	$(CC) $(OBJ) -o $(TARGET) $(HEADERS) $(LIBS)
+# Docker Execution Wrapper with X11 Display Forwarding
+DOCKER_RUN = docker run --rm -it \
+	-e DISPLAY=$(DISPLAY) \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	-v $(shell pwd):$(CONTAINER_APP) \
+	--net=host \
+	--device /dev/snd \
+	-e PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native \
+	-v ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native \
+	--group-add audio \
+	$(IMAGE_NAME)
+.PHONY: all build run docker-build clean fclean re
 
-# Compile source files to object files
-%.o: %.c
-	$(CC) -c $< -o $@ $(HEADERS)
+# Default target: builds image (if needed), compiles inside docker, and runs the game
+all: docker-build
+	@xhost +local:docker > /dev/null 2>&1 || true
+	$(DOCKER_RUN) make run-internal
 
-# Clean
+# Builds the Docker Image only if not already built
+docker-build:
+	@if [ -z "$$(docker images -q $(IMAGE_NAME) 2> /dev/null)" ]; then \
+		echo "Building Docker environment image..."; \
+		docker build -t $(IMAGE_NAME) .; \
+	fi
+
+# Compiles the executable inside the container
+compile:
+	$(DOCKER_RUN) make $(TARGET)
+
+# Internal target invoked inside the container to build & execute
+run-internal: $(TARGET)
+	./$(TARGET)
+
+# Link step (runs inside container)
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS)
+
+# Compile C source files (runs inside container)
+%.o: %.c gamelib.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Cleanup binaries and object files locally
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(TARGET)
+
+# Remove docker image as well
+fclean: clean
+	@if [ -n "$$(docker images -q $(IMAGE_NAME) 2> /dev/null)" ]; then \
+		docker rmi $(IMAGE_NAME); \
+	fi
+
+re: clean all

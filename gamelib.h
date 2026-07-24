@@ -11,9 +11,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include </home/satifi/sdl/local/include/SDL2/SDL.h>
-#include </home/satifi/sdl/local/include/SDL2/SDL_image.h>
-#include </home/satifi/sdl/local/include/SDL2/SDL_mixer.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <time.h>
 
 // structs

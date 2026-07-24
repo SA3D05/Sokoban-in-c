@@ -2,8 +2,11 @@
 
 int init_sounds()
 {
-
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) != 0)
+    {
+        printf("Error opening audio: %s\n", Mix_GetError());
+        return 0;
+    }
 
     MOVE_SOUND = Mix_LoadWAV("./assets/sounds/move.wav");
     NON_MOVE_SOUND = Mix_LoadWAV("./assets/sounds/non_move.wav");
@@ -17,10 +20,10 @@ int init_sounds()
         !MOVE_BOX_SOUND ||
         !BOX_ON_PLACE_SOUND ||
         !BOX_NON_PLACE_SOUND ||
-        !MOVE_BOX_SOUND ||
         !RESTART_SOUND)
     {
         printf("Error loading sound: %s\n", Mix_GetError());
+        destroy_sounds();
         return 0;
     }
     return 1;

@@ -6,7 +6,7 @@ int read_map()
     FILE *f = fopen(MAP_PATH, "r");
     if (!f)
     {
-        printf("The file '%s' is not found\n", MAP_PATH);
+        // printf("The file '%s' is not found\n", MAP_PATH);
         return 0;
     }
 
@@ -17,7 +17,7 @@ int read_map()
     {
         if (i > 5)
         {
-            printf("The fist line on file '%s' is not correct\n", MAP_PATH);
+            // printf("The fist line on file '%s' is not correct\n", MAP_PATH);
             return 0;
         }
         map_info[i++] = c;
